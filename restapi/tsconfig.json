@@ -1,0 +1,23 @@
+{
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "compilerOptions": {
+      "target": "es6",
+      "rootDir": "./src/",
+      "outDir": "./build/",
+      "module": "commonjs",
+      "declaration": true,
+      "noImplicitAny": false,
+      "removeComments": true,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "inlineSources": true,
+      "esModuleInterop": true,
+      "paths": {
+        "@src/*": ["./src/*"]
+      }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["**/*.spec.ts"]
+}

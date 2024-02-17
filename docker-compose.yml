@@ -1,0 +1,39 @@
+services:
+  frontend:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile.dev
+    ports:
+      - 4200:4200
+
+  rest-api:
+    build:
+      context: restapi/
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - .env.postgres
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:16
+    user: postgres
+    ports:
+      - 5432:5432
+    restart: always
+    env_file:
+      - .env.postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:

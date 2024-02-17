@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile.dev
+    ports:
+      - 4200:4200
+    volumes:
+      - ./frontend:/app:rw
+    privileged: true # due to the .angular cache.
+
+  rest-api:
+    extends:
+      file: docker-compose.yml
+      service: rest-api
+    build:
+      context: restapi/
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./restapi:/app
+
+  database:
+    extends:
+      file: docker-compose.yml
+      service: database
+
+volumes:
+  pgdata:

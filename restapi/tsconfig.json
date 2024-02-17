@@ -14,8 +14,9 @@
       "sourceMap": true,
       "inlineSources": true,
       "esModuleInterop": true,
+      "baseUrl": ".",
       "paths": {
-        "@src/*": ["./src/*"]
+        "@src/*": ["src/*"]
       }
   },
   "include": ["src/**/*"],

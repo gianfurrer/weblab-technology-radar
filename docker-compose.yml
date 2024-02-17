@@ -2,9 +2,9 @@ services:
   frontend:
     build:
       context: frontend/
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
-      - 4200:4200
+      - 3001:80
 
   rest-api:
     build:

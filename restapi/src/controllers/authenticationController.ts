@@ -4,7 +4,7 @@ import { Account } from "@src/types/authentication.types";
 
 export async function login(req: Request, res: Response, next: NextFunction) {
   if (req.session.user) {
-    res.status(204).send(`You're already logged in as '${req.session.user.email}`);
+    res.status(200).send({message: `You're already logged in as '${req.session.user.email}`});
     res.end();
     return;
   }
@@ -17,10 +17,10 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       req.session.user = account;
       req.session.save();
 
-      res.send(req.session.id);
+      res.status(200).send({message: `Login Successful!`, token: req.session.id })
     });
   } catch (error) {
-    res.status(500).send({ errors: [error.message] });
+    return res.status(500).send(error.message);
   }
 }
 

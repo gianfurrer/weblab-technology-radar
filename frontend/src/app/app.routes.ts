@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
 import { LoginComponent } from "./login/login.component";
-import { AppComponent } from "./app.component";
+import { TechnologyViewerComponent } from "./technology-viewer/technology-viewer.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
-  { path: "technologies", component: AppComponent },
+  { path: "technologies", component: TechnologyViewerComponent },
 ];

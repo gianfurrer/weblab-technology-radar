@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { LoginService } from "./login.service";
+import { AuthService } from "../shared/services/auth/auth.service";
 import { catchError, lastValueFrom, of, tap } from "rxjs";
 import { Router } from "@angular/router";
 
@@ -10,7 +10,6 @@ import { Router } from "@angular/router";
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: "./login.component.html",
-  styleUrl: "./login.component.scss",
 })
 export class LoginComponent {
   public loginForm!: FormGroup;
@@ -19,7 +18,7 @@ export class LoginComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private loginService: LoginService,
+    private loginService: AuthService,
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({

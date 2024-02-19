@@ -4,7 +4,7 @@ import { Account } from "@src/types/authentication.types";
 
 export async function login(req: Request, res: Response, next: NextFunction) {
   if (req.session.user) {
-    res.status(200).send({message: `You're already logged in as '${req.session.user.email}`});
+    res.status(200).send(req.session.user);
     res.end();
     return;
   }
@@ -17,7 +17,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       req.session.user = account;
       req.session.save();
 
-      res.status(200).send({message: `Login Successful!`, token: req.session.id })
+      res.status(200).send(account)
     });
   } catch (error) {
     return res.status(500).send(error.message);
@@ -34,4 +34,8 @@ export async function logout(req: Request, res: Response, next: NextFunction) {
       res.send("Successfully logged out.");
     });
   });
+}
+
+export function getUser(req: Request, res: Response) {
+  res.status(200).send(req.session.user)
 }

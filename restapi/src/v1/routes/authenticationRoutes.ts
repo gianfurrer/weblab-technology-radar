@@ -1,4 +1,4 @@
-import { login, logout } from "@src/controllers/authenticationController";
+import { getUser, login, logout } from "@src/controllers/authenticationController";
 import { Router } from "express";
 import { body } from "express-validator";
 import { isAuthenticated } from "./middleware/auth";
@@ -12,5 +12,7 @@ const loginValidation = [
 
 router.post("/login", loginValidation, login);
 router.post("/logout", isAuthenticated, logout);
+router.get("/user", isAuthenticated, getUser);
+
 
 export const AuthenticationRouterV1 = router;

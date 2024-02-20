@@ -1,8 +1,8 @@
 import { AsyncPipe, NgIf } from "@angular/common";
 import { Component } from "@angular/core";
-import { User } from "../../shared/types/user";
+import { User } from "@shared/types/user";
 import { Observable } from "rxjs";
-import { AuthService } from "../../shared/services/auth/auth.service";
+import { AuthService } from "@shared/services/auth/auth.service";
 import { RouterLink } from "@angular/router";
 
 @Component({

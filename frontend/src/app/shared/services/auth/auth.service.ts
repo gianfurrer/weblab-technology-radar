@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject, catchError, merge, of, retry, shareReplay, tap } from "rxjs";
-import { User } from "../../types/user";
+import { User } from "@shared/types/user";
 
 @Injectable({
   providedIn: "root",

@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { TechnologyService } from "../shared/services/technology/technology.service";
+import { TechnologyService } from "@shared/services/technology/technology.service";
 import { Observable } from "rxjs";
-import { Technology } from "../shared/types/technology";
+import { Technology } from "@shared/types/technology";
 import { AsyncPipe, DatePipe, JsonPipe, NgFor, NgIf } from "@angular/common";
 
 @Component({

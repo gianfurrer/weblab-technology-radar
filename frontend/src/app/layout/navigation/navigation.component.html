@@ -9,24 +9,25 @@
             alt="Your Company" />
         </div>
         <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
+          <div class="flex space-x-4" *ngIf="currentUser$ | async as user">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <a
               routerLink="/technologies"
               class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
               aria-current="page"
-              >Dashboard</a
+              >Technology Viewer</a
             >
             <a
-              routerLink="/login"
+              routerLink="/technologies/admin"
+              *ngIf="isAdmin(user)"
               class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-              >Login</a
+              >Technology Administration</a
             >
           </div>
         </div>
       </div>
       <div
-        *ngIf="currentUser$ | async as user"
+        *ngIf="currentUser$ | async as user; else notLoggedInBlock"
         class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
         <span class="px-2">{{ user.email }}</span>
         <button
@@ -60,6 +61,15 @@
           </button>
         </div>
       </div>
+      <ng-template #notLoggedInBlock>
+        <div>
+          <a
+            routerLink="/login"
+            class="text-gray-800 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+            >Login</a
+          >
+        </div>
+      </ng-template>
     </div>
   </div>
 </nav>

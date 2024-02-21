@@ -14,9 +14,19 @@ export class AuthService {
     Accept: "application/json",
   });
 
-  private user$ = new Subject<User>();
+  private userSubject$ = new Subject<User>();
+  public user$: Observable<User | null>;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.user$ = merge(this.userSubject$, this.http.get<User>(`${AuthService.URL_PREFIX}/user`)).pipe(
+      catchError(() => {
+        console.log("User not logged in");
+        return of(null);
+      }),
+      retry({ delay: () => this.userSubject$.asObservable() }),
+      shareReplay(1)
+    );
+  }
 
   public login(email: string, password: string): Observable<User> {
     const body = {
@@ -25,7 +35,7 @@ export class AuthService {
     };
     return this.http.post<User>(`${AuthService.URL_PREFIX}/login`, body, { headers: this.headers }).pipe(
       tap((user: User) => {
-        this.user$.next(user);
+        this.userSubject$.next(user);
       })
     );
   }
@@ -35,13 +45,6 @@ export class AuthService {
   }
 
   public getUser(): Observable<User | null> {
-    return merge(this.user$, this.http.get<User>(`${AuthService.URL_PREFIX}/user`)).pipe(
-      shareReplay(),
-      retry({ delay: () => this.user$.asObservable() }),
-      catchError(() => {
-        console.log("User not logged in");
-        return of(null);
-      })
-    );
+    return this.user$;
   }
 }

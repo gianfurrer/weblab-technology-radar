@@ -6,7 +6,7 @@ import { firstValueFrom } from "rxjs";
 
 export const isLoggedOut: CanActivateFn = async () => {
   const authService: AuthService = inject(AuthService);
-  const user: User | null = await firstValueFrom(authService.getUser());
+  const user: User | null = await firstValueFrom(authService.user$);
   return user === null;
 };
 
@@ -14,7 +14,7 @@ export function hasRole(roles: Role[]): CanActivateFn {
   return async () => {
     const authService: AuthService = inject(AuthService);
     const router: Router = inject(Router);
-    const user: User | null = await firstValueFrom(authService.getUser());
+    const user: User | null = await firstValueFrom(authService.user$);
     if (user == null) {
       router.navigateByUrl("/login");
       return false;

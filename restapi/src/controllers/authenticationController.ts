@@ -31,7 +31,7 @@ export async function logout(req: Request, res: Response, next: NextFunction) {
 
     req.session.regenerate(function (err) {
       if (err) next(err);
-      res.send("Successfully logged out.");
+      res.send({ message: "Successfully logged out." });
     });
   });
 }

@@ -1,9 +1,9 @@
 import { AsyncPipe, NgIf } from "@angular/common";
 import { Component } from "@angular/core";
 import { User } from "@shared/types/user";
-import { Observable } from "rxjs";
+import { Observable, firstValueFrom } from "rxjs";
 import { AuthService } from "@shared/services/auth/auth.service";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-navigation",
@@ -14,7 +14,15 @@ import { RouterLink } from "@angular/router";
 export class NavigationComponent {
   public currentUser$: Observable<User | null>;
 
-  constructor(private authService: AuthService) {
-    this.currentUser$ = this.authService.getUser();
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.currentUser$ = this.authService.user$;
+  }
+
+  public async logout() {
+    await firstValueFrom(this.authService.logout());
+    this.router.navigateByUrl("/login");
   }
 }

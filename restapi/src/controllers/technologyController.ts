@@ -21,7 +21,6 @@ export const createTechnology = async (req: Request, res: Response) => {
 
 export const updateTechnology = async (req: Request, res: Response) => {
   const updatedTechnology: Technology = req.body;
-  updatedTechnology.id = req.params["id"];
 
   try {
     const technology = await service.updateTechnology(updatedTechnology);
@@ -36,7 +35,6 @@ export const updateTechnology = async (req: Request, res: Response) => {
 
 export const publishTechnology = async (req: Request, res: Response) => {
   const publishDetails: PublishTechnology = req.body;
-  publishDetails.technology_id = req.params["id"];
 
   try {
     const technology = await service.publishTechnology(publishDetails);

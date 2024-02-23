@@ -36,9 +36,9 @@ const requiredTechnologyValidator = [
   body("description").notEmpty(),
 ];
 const technologyValidator = [
+  body("id", `Parameter 'id' not provided`),
   ...requiredTechnologyValidator,
-  body("ring", 'Attribute "ring" not provided')
-    .optional()
+  body("ring").optional()
     .isIn(ringOptions)
     .withMessage(`Parameter 'ring' must be one of: ${ringOptions.join(", ")}`),
   body("ring_reason").optional(),
@@ -46,7 +46,8 @@ const technologyValidator = [
 ];
 
 const publishValidator = [
-  body("ring", 'Attribute "ring" not provided')
+  body("id", `Parameter 'id' not provided`),
+  body("ring", `Parameter 'ring' not provided`)
     .notEmpty()
     .isIn(ringOptions)
     .withMessage(`Parameter 'ring' must be one of: ${ringOptions.join(", ")}`),
@@ -55,7 +56,7 @@ const publishValidator = [
 
 router.get("/", isAuthenticated, getTechnologies);
 router.post("/", hasRole([Role.CTO, Role.TechLead]), validate(technologyValidator), createTechnology);
-router.put("/:id", hasRole([Role.CTO, Role.TechLead]), validate(requiredTechnologyValidator), updateTechnology);
-router.post("/publish/:id", hasRole([Role.CTO, Role.TechLead]), validate(publishValidator), publishTechnology);
+router.put("/", hasRole([Role.CTO, Role.TechLead]), validate(requiredTechnologyValidator), updateTechnology);
+router.post("/publish", hasRole([Role.CTO, Role.TechLead]), validate(publishValidator), publishTechnology);
 
 export const TechologyRouterV1 = router;

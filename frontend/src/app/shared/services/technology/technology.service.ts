@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Technology } from "@shared/types/technology";
+import { PublishDetails, Technology } from "@shared/types/technology";
 
 @Injectable({
   providedIn: "root",
@@ -21,5 +21,9 @@ export class TechnologyService {
 
   public editTechnology(technology: Technology): Observable<Technology> {
     return this.http.put<Technology>(TechnologyService.URL_PREFIX, technology);
+  }
+
+  public publishTechnology(details: PublishDetails): Observable<Technology> {
+    return this.http.post<Technology>(`${TechnologyService.URL_PREFIX}/publish`, details);
   }
 }

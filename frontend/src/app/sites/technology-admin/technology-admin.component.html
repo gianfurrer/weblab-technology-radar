@@ -1,1 +1,37 @@
-<p>technology-admin works!</p>
+<section class="flex-auto">
+  <h1 class="text-xl font-bold text-white p-4 md:text-2xl">Administration</h1>
+  <table *ngIf="technologies$ | async as technologies" class="table-fixed w-full text-center text-sm font-light">
+    <thead>
+      <tr class="border-b bg-gray-300">
+        <th scope="col" class="md:px-3 py-2">Name</th>
+        <th scope="col" class="md:px-3 py-2">Category</th>
+        <th scope="col" class="md:px-3 py-2">Ring</th>
+        <th scope="col" class="md:px-3 py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let technology of technologies"
+        [attr.data-published]="technology.published"
+        class="border-b border-gray-400 bg-gray-100 data-[published=true]:bg-green-200">
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.name }}</td>
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.category }}</td>
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.ring }}</td>
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4 flex gap-1 flex-wrap-reverse justify-center">
+          <button class="w-20 text-gray-900 bg-blue-300 hover:bg-blue-400 rounded-lg text-sm p-1 text-center">
+            Edit
+          </button>
+          <button
+            *ngIf="!technology.published"
+            (click)="publishTechnology(technology)"
+            class="w-20 text-gray-900 bg-green-200 hover:bg-green-300 rounded-lg text-sm p-1 text-center">
+            Publish
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-publish-dialog
+    [technology]="technologyToPublish"
+    (closeDialog)="technologyToPublish = undefined"></app-publish-dialog>
+</section>

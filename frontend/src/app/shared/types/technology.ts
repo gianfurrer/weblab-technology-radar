@@ -22,3 +22,9 @@ export interface Technology {
   published?: boolean;
   published_at?: Date;
 }
+
+export interface PublishDetails {
+  id: string;
+  ring: Ring;
+  ring_reason: string;
+}

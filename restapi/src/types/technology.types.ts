@@ -25,6 +25,6 @@ export interface Technology {
 
 export interface PublishDetails {
   id: string;
-  ring?: Ring;
-  ring_reason?: string;
+  ring: Ring;
+  ring_reason: string;
 }

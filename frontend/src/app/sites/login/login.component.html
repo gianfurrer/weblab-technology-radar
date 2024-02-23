@@ -14,7 +14,7 @@
         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
         placeholder="name@company.com"
         required="" />
-      <div *ngIf="submitted && loginForm.controls?.['email']?.['errors']" class="text-red-700">
+      <div *ngIf="submitted && loginForm.controls?.['email']?.['errors']" class="text-red-700 font-bold">
         <div *ngIf="loginForm.controls?.['email']?.['errors']?.['required']">Email is required</div>
         <div *ngIf="loginForm.controls?.['email']?.['errors']?.['email']">Email must be a valid email address</div>
       </div>
@@ -30,7 +30,7 @@
         autocomplete="current-password"
         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
         required="" />
-      <div *ngIf="submitted && loginForm.controls?.['password']?.['errors']" class="text-red-700">
+      <div *ngIf="submitted && loginForm.controls?.['password']?.['errors']" class="text-red-700 font-bold">
         <div *ngIf="loginForm.controls?.['password']?.['errors']?.['required']">Password is required</div>
         <div *ngIf="loginForm.controls?.['password']?.['errors']?.['minlength']">
           Password must be at least 8 characters

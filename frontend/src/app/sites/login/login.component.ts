@@ -39,11 +39,9 @@ export class LoginComponent {
     await lastValueFrom(
       this.loginService.login(email, password).pipe(
         tap(() => {
-          console.log("Success! Redirecting");
-          this.router.navigateByUrl("/technologies");
+          this.router.navigateByUrl("/technologies/radar");
         }),
         catchError(err => {
-          console.log(err);
           this.errorMessage = err.error ?? err.message;
           return of(this.errorMessage);
         })

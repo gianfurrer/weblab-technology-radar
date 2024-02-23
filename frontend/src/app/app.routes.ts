@@ -8,7 +8,7 @@ import { TechnologyAdminComponent } from "./sites/technology-admin/technology-ad
 export const routes: Routes = [
   { path: "login", component: LoginComponent, canActivate: [isLoggedOut] },
   {
-    path: "technologies",
+    path: "technologies/radar",
     component: TechnologyViewerComponent,
     canActivate: [hasRole([Role.User, Role.CTO, Role.TechLead])],
   },

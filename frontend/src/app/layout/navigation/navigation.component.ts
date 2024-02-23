@@ -3,12 +3,12 @@ import { Component } from "@angular/core";
 import { Role, User } from "@shared/types/user";
 import { Observable, firstValueFrom } from "rxjs";
 import { AuthService } from "@shared/services/auth/auth.service";
-import { Router, RouterLink } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
   selector: "app-navigation",
   standalone: true,
-  imports: [NgIf, AsyncPipe, RouterLink],
+  imports: [NgIf, AsyncPipe, RouterLink, RouterLinkActive],
   templateUrl: "./navigation.component.html",
 })
 export class NavigationComponent {

@@ -63,11 +63,11 @@ async function getTechnologyByName(name: string): Promise<Technology | null> {
 }
 
 export async function publishTechnology(publishDetails: PublishDetails) {
-  const technology = await getTechnologyById(publishDetails.technology_id);
+  const technology = await getTechnologyById(publishDetails.id);
   if (technology === null) {
-    throw Error(`Technology with id '${publishDetails.technology_id}' not found`);
+    throw Error(`Technology with id '${publishDetails.id}' not found`);
   } else if (technology.published) {
-    throw Error(`Technology with id '${publishDetails.technology_id}' ('${technology.name}') is already published`);
+    throw Error(`Technology with id '${publishDetails.id}' ('${technology.name}') is already published`);
   }
   publishDetails.ring ??= technology.ring;
   publishDetails.ring_reason ??= technology.ring_reason;
@@ -88,6 +88,6 @@ export async function publishTechnology(publishDetails: PublishDetails) {
     new Date(),
     publishDetails.ring,
     publishDetails.ring_reason,
-    publishDetails.technology_id
+    publishDetails.id
   )[0];
 }

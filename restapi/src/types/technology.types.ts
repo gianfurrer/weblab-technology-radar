@@ -24,7 +24,7 @@ export interface Technology {
 }
 
 export interface PublishDetails {
-  technology_id: string;
+  id: string;
   ring?: Ring;
   ring_reason?: string;
 }

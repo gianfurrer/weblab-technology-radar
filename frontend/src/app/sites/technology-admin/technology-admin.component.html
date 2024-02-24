@@ -6,6 +6,7 @@
         <th scope="col" class="md:px-3 py-2">Name</th>
         <th scope="col" class="md:px-3 py-2">Category</th>
         <th scope="col" class="md:px-3 py-2">Ring</th>
+        <th scope="col" class="md:px-3 py-2">Published At</th>
         <th scope="col" class="md:px-3 py-2">Actions</th>
       </tr>
     </thead>
@@ -17,6 +18,9 @@
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.name }}</td>
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.category }}</td>
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.ring }}</td>
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4">
+          {{ technology.published_at | date: "dd.MM.yy HH:mm:ss" }}
+        </td>
         <td class="md:px-6 max-md:border-l border-gray-400 py-4 flex gap-1 flex-wrap-reverse justify-center">
           <button class="w-20 text-gray-900 bg-blue-300 hover:bg-blue-400 rounded-lg text-sm p-1 text-center">
             Edit

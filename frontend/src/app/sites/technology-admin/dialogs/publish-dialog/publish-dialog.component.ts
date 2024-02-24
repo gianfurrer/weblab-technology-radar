@@ -47,7 +47,10 @@ export class PublishDialogComponent extends DialogBaseComponent implements OnCha
 
     await firstValueFrom(
       this.technologyService.publishTechnology(body).pipe(
-        tap(() => {
+        tap((response: Technology) => {
+          if (this.technology) {
+            Object.assign(this.technology, response);
+          }
           this.close();
         }),
         catchError(err => {

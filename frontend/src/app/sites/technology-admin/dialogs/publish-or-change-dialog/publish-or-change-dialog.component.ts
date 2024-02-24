@@ -17,7 +17,7 @@ export class PublishOrChangeDialogComponent extends DialogBaseComponent implemen
 
   public publishForm?: FormGroup;
   public submitted = false;
-  public errorMessages = "";
+  public errorMessages: string[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,5 +69,6 @@ export class PublishOrChangeDialogComponent extends DialogBaseComponent implemen
     }
     this.submitted = false;
     this.publishForm = undefined;
+    this.errorMessages = [];
   }
 }

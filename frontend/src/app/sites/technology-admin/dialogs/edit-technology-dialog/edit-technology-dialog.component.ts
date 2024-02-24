@@ -17,7 +17,7 @@ export class EditTechnologyDialogComponent extends DialogBaseComponent implement
 
   public editForm?: FormGroup;
   public submitted = false;
-  public errorMessages = "";
+  public errorMessages: string[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -70,5 +70,6 @@ export class EditTechnologyDialogComponent extends DialogBaseComponent implement
     }
     this.submitted = false;
     this.editForm = undefined;
+    this.errorMessages = [];
   }
 }

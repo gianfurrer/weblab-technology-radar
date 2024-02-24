@@ -18,9 +18,12 @@ export interface Technology {
   ring?: Ring;
   description: string;
   ring_reason?: string;
+  created_by?: string;
   created_at?: Date;
   published?: boolean;
   published_at?: Date;
+  changed_by?: string;
+  changed_at: Date;
 }
 
 export interface PublishDetails {

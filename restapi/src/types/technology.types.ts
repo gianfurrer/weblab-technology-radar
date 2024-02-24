@@ -1,3 +1,5 @@
+import { Account } from "./authentication.types";
+
 export enum Category {
   Tools = "Tools",
   Techniques = "Techniques",
@@ -18,9 +20,12 @@ export interface Technology {
   ring?: Ring;
   description: string;
   ring_reason?: string;
+  created_by?: Account;
   created_at?: Date;
-  published?: Boolean;
   published_at?: Date;
+  published?: Boolean;
+  changed_by?: Account;
+  changed_at?: Date;
 }
 
 export interface PublishDetails {

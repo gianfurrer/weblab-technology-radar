@@ -11,7 +11,7 @@ export const createTechnology = async (req: Request, res: Response) => {
   const { body } = req;
 
   try {
-    const technology = await service.addTechnology(body);
+    const technology = await service.addTechnology(body, req.session.user);
     res.send(technology);
   } catch (error) {
     res.status(500).send({ errors: [error.message] });
@@ -23,7 +23,7 @@ export const updateTechnology = async (req: Request, res: Response) => {
   const updatedTechnology: Technology = req.body;
 
   try {
-    const technology = await service.updateTechnology(updatedTechnology);
+    const technology = await service.updateTechnology(updatedTechnology, req.session.user);
     res.send(technology);
   } catch (error) {
     res.status(500).send({ errors: [error.message] });

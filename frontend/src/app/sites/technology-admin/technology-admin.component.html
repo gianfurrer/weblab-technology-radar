@@ -1,11 +1,13 @@
 <section class="flex-auto">
   <h1 class="text-xl font-bold text-white p-4 md:text-2xl">Administration</h1>
-  <table *ngIf="technologies$ | async as technologies" class="table-fixed w-full text-center text-sm font-light">
+  <table *ngIf="technologies$ | async as technologies" class="table-auto w-full text-center text-sm font-light">
     <thead>
       <tr class="border-b bg-gray-300">
         <th scope="col" class="md:px-3 py-2">Name</th>
         <th scope="col" class="md:px-3 py-2">Category</th>
         <th scope="col" class="md:px-3 py-2">Ring</th>
+        <th scope="col" class="md:px-3 py-2 max-md:hidden">Created</th>
+        <th scope="col" class="md:px-3 py-2 max-md:hidden">Changed</th>
         <th scope="col" class="md:px-3 py-2">Published At</th>
         <th scope="col" class="md:px-3 py-2">Actions</th>
       </tr>
@@ -18,11 +20,32 @@
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.name }}</td>
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.category }}</td>
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.ring }}</td>
-        <td class="md:px-6 max-md:border-l border-gray-400 py-4">
-          {{ technology.published_at | date: "dd.MM.yy HH:mm:ss" }}
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4 max-md:hidden">
+          <span *ngIf="technology.created_at || technology.created_by">
+            {{ technology.created_at | date: "dd.MM.yy HH:mm:ss" }}
+            <br />
+            {{ technology.created_by }}
+          </span>
         </td>
-        <td class="md:px-6 max-md:border-l border-gray-400 py-4 flex gap-1 flex-wrap-reverse justify-center">
-          <button class="w-20 text-gray-900 bg-blue-300 hover:bg-blue-400 rounded-lg text-sm p-1 text-center">
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4 max-md:hidden">
+          <span *ngIf="technology.changed_at || technology.changed_by; else unchanged">
+            {{ technology.changed_at | date: "dd.MM.yy HH:mm:ss" }}
+            <br />
+            {{ technology.changed_by }}
+          </span>
+          <ng-template #unchanged>Unchanged</ng-template>
+        </td>
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4">
+          <span *ngIf="technology.published; else notPublished">{{
+            technology.published_at | date: "dd.MM.yy HH:mm:ss"
+          }}</span>
+          <ng-template #notPublished>Not Public</ng-template>
+        </td>
+        <td
+          class="md:px-6 max-md:border-l border-gray-400 py-4 flex gap-1 flex-wrap-reverse justify-center align-middle">
+          <button
+            (click)="editTechnology(technology)"
+            class="w-20 text-gray-900 bg-blue-300 hover:bg-blue-400 rounded-lg text-sm p-1 text-center">
             Edit
           </button>
           <button

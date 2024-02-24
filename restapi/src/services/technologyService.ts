@@ -1,9 +1,9 @@
 import * as db from "@src/database/database";
+import { Account } from "@src/types/authentication.types";
 import { PublishDetails, Technology } from "@src/types/technology.types";
 
-const FIXME_USER = "20fe3303-f280-4bf4-8575-8561d0ad5601";
 
-export async function addTechnology(technology: Technology) {
+export async function addTechnology(technology: Technology, created_by: Account) {
   let { name, category, ring, description, ring_reason } = technology;
 
   const existing_technology = await getTechnologyByName(name);
@@ -13,18 +13,18 @@ export async function addTechnology(technology: Technology) {
   }
 
   return await db.executeSQL(
-    `INSERT INTO technology (name, category, ring, description, ring_reason, created_by) 
+    `INSERT INTO technology (name, category, ring, description, ring_reason, created_by)
      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
     name,
     category,
     ring,
     description,
     ring_reason,
-    FIXME_USER
+    created_by.id
   )[0];
 }
 
-export async function updateTechnology(technology: Technology) {
+export async function updateTechnology(technology: Technology, changed_by: Account) {
   const { name, category, description, id } = technology;
   const existingTechnology = await getTechnologyById(id);
   if (existingTechnology === null) {
@@ -37,28 +37,41 @@ export async function updateTechnology(technology: Technology) {
     );
   }
 
-  return await db.executeSQL(
-    `UPDATE technology SET name = $1, category = $2, description = $3, changed_by = $4, changed_at = $5 WHERE id = $6 RETURNING *`,
+  await db.executeSQL(
+    `UPDATE technology
+     SET name = $1,
+         category = $2,
+         description = $3,
+         changed_by = $4,
+         changed_at = $5
+     WHERE id = $6`,
     name,
     category,
     description,
-    FIXME_USER,
+    changed_by.id,
     new Date(),
     id
-  )[0];
+  );
+  return await getTechnologyById(id);
 }
 
-export async function getTechnologies(): Promise<Technology[]> {
-  return await db.executeSQL("SELECT * FROM technology");
+export async function getTechnologies(where: string = "", ...args): Promise<Technology[]> {
+  return await db.executeSQL(`SELECT t.id, t.name, t.category, t.ring, t.description, t.ring_reason,
+                                     created.email as created_by, t.created_at, t.published, t.published_at,
+                                     changed.email as changed_by, t.changed_at
+                              FROM technology as t
+                              INNER JOIN account as created ON created.id = t.created_by
+                              LEFT JOIN account as changed ON changed.id = t.changed_by
+                              ${where};`, ...args);
 }
 
 async function getTechnologyById(id: string): Promise<Technology | null> {
-  const rows = await db.executeSQL("SELECT * FROM technology WHERE id = $1", id);
+  const rows = await getTechnologies("WHERE t.id = $1", id);
   return rows[0] || null;
 }
 
 async function getTechnologyByName(name: string): Promise<Technology | null> {
-  const rows = await db.executeSQL("SELECT * FROM technology WHERE name = $1", name);
+  const rows = await getTechnologies("WHERE t.name = $1", name);
   return rows[0] || null;
 }
 
@@ -78,16 +91,16 @@ export async function publishTechnology(publishDetails: PublishDetails) {
     throw Error(`Unable to publish technology ${technology.name}: no ring reason defined`);
   }
 
-  return await db.executeSQL(
+  await db.executeSQL(
     `UPDATE technology SET published = true,
                            published_at = $1,
                            ring = $2,
                            ring_reason = $3
-                       WHERE id = $4
-     RETURNING *`,
+                       WHERE id = $4`,
     new Date(),
     publishDetails.ring,
     publishDetails.ring_reason,
     publishDetails.id
-  )[0];
+  );
+  return await getTechnologyById(publishDetails.id);
 }

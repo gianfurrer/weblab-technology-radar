@@ -1,6 +1,6 @@
 import * as db from '@src/database/database';
 import { Account } from '@src/types/authentication.types';
-import { PublishDetails, Ring, Technology } from '@src/types/technology.types';
+import { PublishDetails, Ring, RingHistroy, Technology } from '@src/types/technology.types';
 
 export async function addTechnology(technology: Technology, created_by: Account) {
   let { name, category, ring, description, ring_reason } = technology;
@@ -10,7 +10,7 @@ export async function addTechnology(technology: Technology, created_by: Account)
     throw Error(`Failed to add technology: Technology with name ${name} already exists`);
   }
 
-  return await db.executeSQL(
+  technology = await db.executeSQL(
     `INSERT INTO technology (name, category, ring, description, ring_reason, created_by)
      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
     name,
@@ -20,6 +20,12 @@ export async function addTechnology(technology: Technology, created_by: Account)
     ring_reason,
     created_by.id
   )[0];
+
+  if (technology.ring) {
+    await updateRingHistroy(technology.id, ring, ring_reason ?? '', created_by);
+  }
+
+  return technology;
 }
 
 export async function updateTechnology(technology: Technology, changed_by: Account) {
@@ -66,7 +72,7 @@ export async function getTechnologies(where: string = '', ...args): Promise<Tech
   );
 }
 
-async function getTechnologyById(id: string): Promise<Technology | null> {
+export async function getTechnologyById(id: string): Promise<Technology | null> {
   const rows = await getTechnologies('WHERE t.id = $1', id);
   return rows[0] || null;
 }
@@ -76,7 +82,34 @@ async function getTechnologyByName(name: string): Promise<Technology | null> {
   return rows[0] || null;
 }
 
-export async function publishTechnology(publishDetails: PublishDetails, changed_by: Account) {
+async function updateRingHistroy(
+  technology_id: string,
+  ring: Ring,
+  ring_reason: string,
+  changed_by: Account
+): Promise<void> {
+  await db.executeSQL(
+    `INSERT INTO ring_history (technology_id, ring, ring_reason, changed_by, changed_at)
+     VALUES ($1, $2, $3, $4, $5)`,
+    technology_id,
+    ring,
+    ring_reason,
+    changed_by.id,
+    new Date()
+  );
+}
+
+export async function getRingHistory(technology_id: string): Promise<RingHistroy[]> {
+  return await db.executeSQL(
+      `SELECT h.technology_id, h.ring, h.ring_reason, a.email as changed_by, h.changed_at
+            FROM ring_history as h
+            LEFT JOIN account as a ON a.id = h.changed_by
+            WHERE h.technology_id = $1`,
+      technology_id
+    );
+}
+
+export async function publishTechnology(publishDetails: PublishDetails, changed_by: Account): Promise<Technology> {
   const technology = await getTechnologyById(publishDetails.id);
   if (technology === null) {
     throw Error(`Technology with id '${publishDetails.id}' not found`);
@@ -88,10 +121,6 @@ export async function publishTechnology(publishDetails: PublishDetails, changed_
     throw Error(`Unable to publish technology ${technology.name}: no ring defined`);
   } else if (!publishDetails.ring_reason) {
     throw Error(`Unable to publish technology ${technology.name}: no ring reason defined`);
-  }
-
-  if (publishDetails.ring !== technology.ring || publishDetails.ring_reason !== technology.ring_reason) {
-    // TODO: Update History
   }
 
   await db.executeSQL(
@@ -110,5 +139,11 @@ export async function publishTechnology(publishDetails: PublishDetails, changed_
     new Date(),
     publishDetails.id
   );
+
+  // Update RingHistroy if Ring or Ring Reason changed
+  if (publishDetails.ring !== technology.ring || publishDetails.ring_reason !== technology.ring_reason) {
+    await updateRingHistroy(technology.id, publishDetails.ring, publishDetails.ring_reason, changed_by);
+  }
+
   return await getTechnologyById(publishDetails.id);
 }

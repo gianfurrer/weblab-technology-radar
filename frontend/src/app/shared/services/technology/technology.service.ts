@@ -15,6 +15,10 @@ export class TechnologyService {
     return this.http.get<Technology[]>(TechnologyService.URL_PREFIX);
   }
 
+  public getTechnology(id: string): Observable<Technology> {
+    return this.http.get<Technology>(`${TechnologyService.URL_PREFIX}/${id}`);
+  }
+
   public addTechnology(technology: Technology): Observable<Technology> {
     return this.http.post<Technology>(TechnologyService.URL_PREFIX, technology);
   }

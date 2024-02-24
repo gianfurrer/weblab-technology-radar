@@ -47,3 +47,23 @@ CREATE TABLE technology (
       FOREIGN KEY(changed_by)
         REFERENCES account(id)
 );
+
+/**************************************
+************ RING HISTORY *************
+**************************************/
+
+DROP TABLE IF EXISTS ring_history;
+CREATE TABLE ring_history (
+    technology_id uuid NOT NULL,
+    ring ring NOT NULL,
+    ring_reason varchar NOT NULL,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changed_by uuid,
+    CONSTRAINT fk_changed_by
+      FOREIGN KEY(changed_by)
+        REFERENCES account(id)
+);
+
+-- index history.technology_id to make search faster
+CREATE INDEX ring_history_technology_id_index
+ON ring_history (technology_id);

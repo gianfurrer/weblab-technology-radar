@@ -11,6 +11,13 @@ export enum Ring {
   Adopt = "Adopt",
 }
 
+export interface RingHistory {
+  ring: Ring;
+  ring_reason: string;
+  changed_at: Date;
+  changed_by: string;
+}
+
 export interface Technology {
   id?: string;
   name: string;
@@ -24,6 +31,7 @@ export interface Technology {
   published_at?: Date;
   changed_by?: string;
   changed_at: Date;
+  ring_history?: RingHistory[];
 }
 
 export interface PublishDetails {

@@ -3,6 +3,7 @@ import { ValidationChain, body, validationResult } from 'express-validator';
 import {
   createTechnology,
   getTechnologies,
+  getTechnology,
   publishTechnology,
   updateTechnology,
 } from '@src/controllers/technologyController';
@@ -56,6 +57,7 @@ const publishValidator = [
 ];
 
 router.get('/', isAuthenticated, getTechnologies);
+router.get('/:id', isAuthenticated, getTechnology);
 router.post('/', hasRole([Role.CTO, Role.TechLead]), validate(technologyValidator), createTechnology);
 router.put('/', hasRole([Role.CTO, Role.TechLead]), validate(requiredTechnologyValidator), updateTechnology);
 router.post('/publish', hasRole([Role.CTO, Role.TechLead]), validate(publishValidator), publishTechnology);

@@ -1,13 +1,11 @@
-import * as db from "@src/database/database";
-import { Account } from "@src/types/authentication.types";
-import { PublishDetails, Technology } from "@src/types/technology.types";
-
+import * as db from '@src/database/database';
+import { Account } from '@src/types/authentication.types';
+import { PublishDetails, Ring, Technology } from '@src/types/technology.types';
 
 export async function addTechnology(technology: Technology, created_by: Account) {
   let { name, category, ring, description, ring_reason } = technology;
 
   const existing_technology = await getTechnologyByName(name);
-  console.log("existing_technology", existing_technology);
   if (existing_technology !== null) {
     throw Error(`Failed to add technology: Technology with name ${name} already exists`);
   }
@@ -55,23 +53,26 @@ export async function updateTechnology(technology: Technology, changed_by: Accou
   return await getTechnologyById(id);
 }
 
-export async function getTechnologies(where: string = "", ...args): Promise<Technology[]> {
-  return await db.executeSQL(`SELECT t.id, t.name, t.category, t.ring, t.description, t.ring_reason,
+export async function getTechnologies(where: string = '', ...args): Promise<Technology[]> {
+  return await db.executeSQL(
+    `SELECT t.id, t.name, t.category, t.ring, t.description, t.ring_reason,
                                      created.email as created_by, t.created_at, t.published, t.published_at,
                                      changed.email as changed_by, t.changed_at
                               FROM technology as t
                               INNER JOIN account as created ON created.id = t.created_by
                               LEFT JOIN account as changed ON changed.id = t.changed_by
-                              ${where};`, ...args);
+                              ${where};`,
+    ...args
+  );
 }
 
 async function getTechnologyById(id: string): Promise<Technology | null> {
-  const rows = await getTechnologies("WHERE t.id = $1", id);
+  const rows = await getTechnologies('WHERE t.id = $1', id);
   return rows[0] || null;
 }
 
 async function getTechnologyByName(name: string): Promise<Technology | null> {
-  const rows = await getTechnologies("WHERE t.name = $1", name);
+  const rows = await getTechnologies('WHERE t.name = $1', name);
   return rows[0] || null;
 }
 

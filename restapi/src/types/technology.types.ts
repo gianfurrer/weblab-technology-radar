@@ -1,16 +1,16 @@
-import { Account } from "./authentication.types";
+import { Account } from './authentication.types';
 
 export enum Category {
-  Tools = "Tools",
-  Techniques = "Techniques",
-  Platforms = "Platforms",
+  Tools = 'Tools',
+  Techniques = 'Techniques',
+  Platforms = 'Platforms',
 }
 
 export enum Ring {
-  Assess = "Assess",
-  Trial = "Trial",
-  Hold = "Hold",
-  Adopt = "Adopt",
+  Assess = 'Assess',
+  Trial = 'Trial',
+  Hold = 'Hold',
+  Adopt = 'Adopt',
 }
 
 export interface Technology {
@@ -33,4 +33,12 @@ export interface PublishDetails {
   ring: Ring;
   ring_reason: string;
   publish: boolean;
+}
+
+export interface RingHistroy {
+  technology_id: string;
+  ring: Ring;
+  ring_reason: string;
+  created_at?: Date;
+  changed_by?: string;
 }

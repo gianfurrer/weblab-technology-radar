@@ -30,4 +30,5 @@ export interface PublishDetails {
   id: string;
   ring: Ring;
   ring_reason: string;
+  publish: boolean;
 }

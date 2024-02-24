@@ -37,7 +37,7 @@ export const publishTechnology = async (req: Request, res: Response) => {
   const publishDetails: PublishTechnology = req.body;
 
   try {
-    const technology = await service.publishTechnology(publishDetails);
+    const technology = await service.publishTechnology(publishDetails, req.session.user);
     res.send(technology);
   } catch (error) {
     res.status(500).send({ errors: [error.message] });

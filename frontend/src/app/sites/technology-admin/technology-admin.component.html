@@ -49,18 +49,18 @@
             Edit
           </button>
           <button
-            *ngIf="!technology.published"
-            (click)="publishTechnology(technology)"
-            class="w-20 text-gray-900 bg-green-200 hover:bg-green-300 rounded-lg text-sm p-1 text-center">
-            Publish
+            (click)="publishOrChangeTechnology(technology)"
+            [attr.data-published]="technology.published"
+            class="w-32 text-gray-900 data-[published=false]:bg-green-200 data-[published=false]:hover:bg-green-300 data-[published=true]:bg-lime-100 data-[published=true]:hover:bg-lime-200 rounded-lg text-sm p-1 text-center">
+            {{ technology.published ? "Change Ring" : "Publish" }}
           </button>
         </td>
       </tr>
     </tbody>
   </table>
-  <app-publish-dialog
-    [technology]="technologyToPublish"
-    (closeDialog)="technologyToPublish = undefined"></app-publish-dialog>
+  <app-publish-or-change-dialog
+    [technology]="technologyToPublishOrChange"
+    (closeDialog)="technologyToPublishOrChange = undefined"></app-publish-or-change-dialog>
   <app-edit-technology-dialog
     [technology]="technologyToEdit"
     (closeDialog)="technologyToEdit = undefined"></app-edit-technology-dialog>

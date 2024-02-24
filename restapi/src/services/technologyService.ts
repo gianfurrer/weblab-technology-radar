@@ -75,12 +75,10 @@ async function getTechnologyByName(name: string): Promise<Technology | null> {
   return rows[0] || null;
 }
 
-export async function publishTechnology(publishDetails: PublishDetails) {
+export async function publishTechnology(publishDetails: PublishDetails, changed_by: Account) {
   const technology = await getTechnologyById(publishDetails.id);
   if (technology === null) {
     throw Error(`Technology with id '${publishDetails.id}' not found`);
-  } else if (technology.published) {
-    throw Error(`Technology with id '${publishDetails.id}' ('${technology.name}') is already published`);
   }
   publishDetails.ring ??= technology.ring;
   publishDetails.ring_reason ??= technology.ring_reason;
@@ -91,15 +89,24 @@ export async function publishTechnology(publishDetails: PublishDetails) {
     throw Error(`Unable to publish technology ${technology.name}: no ring reason defined`);
   }
 
+  if (publishDetails.ring !== technology.ring || publishDetails.ring_reason !== technology.ring_reason) {
+    // TODO: Update History
+  }
+
   await db.executeSQL(
-    `UPDATE technology SET published = true,
-                           published_at = $1,
-                           ring = $2,
-                           ring_reason = $3
-                       WHERE id = $4`,
-    new Date(),
+    `UPDATE technology SET published = $1,
+                           published_at = $2,
+                           ring = $3,
+                           ring_reason = $4,
+                           changed_by = $5,
+                           changed_at = $6
+                       WHERE id = $7`,
+    publishDetails.publish,
+    publishDetails.publish ? new Date() : null,
     publishDetails.ring,
     publishDetails.ring_reason,
+    changed_by.id,
+    new Date(),
     publishDetails.id
   );
   return await getTechnologyById(publishDetails.id);

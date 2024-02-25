@@ -30,7 +30,7 @@ export interface Technology {
   published?: boolean;
   published_at?: Date;
   changed_by?: string;
-  changed_at: Date;
+  changed_at?: Date;
   ring_history?: RingHistory[];
 }
 

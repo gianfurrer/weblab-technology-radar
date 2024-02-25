@@ -1,7 +1,10 @@
 <article class="flex-auto">
   <h1 class="text-xl font-bold text-white p-4 md:text-2xl">Techology Radar</h1>
 
-  <section *ngFor="let group of groupedTechnologies$ | async | keyvalue" class="bg-gray-50">
+  <section
+    *ngFor="let group of groupedTechnologies$ | async | keyvalue"
+    [attr.data-category]="group.key"
+    class="bg-gray-50">
     <h2 class="text-xl font-bold text-gray-900 p-4 md:text-2xl">{{ group.key }}</h2>
     <table *ngIf="group.value as technologies" class="table-auto w-full text-center text-sm font-light">
       <thead>

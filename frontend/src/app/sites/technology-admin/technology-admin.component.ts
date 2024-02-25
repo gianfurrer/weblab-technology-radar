@@ -19,7 +19,7 @@ export class TechnologyAdminComponent {
   public technologyToEdit?: Technology;
 
   constructor(private technologyService: TechnologyService) {
-    this.technologies$ = this.technologyService.getTechnologies();
+    this.technologies$ = this.technologyService.getTechnologies(false);
   }
 
   public publishOrChangeTechnology(technology: Technology) {

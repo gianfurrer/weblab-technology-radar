@@ -3,8 +3,17 @@ import * as service from '@src/services/technologyService';
 import { PublishDetails as PublishTechnology, Technology } from '@src/types/technology.types';
 import { Role } from '@src/types/authentication.types';
 
+function hasAccessToUnpublishedTechnologies(role: Role): boolean {
+  return [Role.CTO, Role.TechLead].includes(role);
+}
+
 export const getTechnologies = async (req: Request, res: Response) => {
-  const technologies = await service.getTechnologies();
+  let onlyPublished = String(req.query['onlyPublished'] ?? 'true').toLowerCase() === 'true';
+  if (onlyPublished === false && !hasAccessToUnpublishedTechnologies(req.session.user.role)) {
+    onlyPublished = true;
+  }
+
+  const technologies = await service.getTechnologies(onlyPublished);
   res.send(technologies);
 };
 
@@ -16,7 +25,7 @@ export const getTechnology = async (req: Request, res: Response) => {
   try {
     const technology = await service.getTechnologyById(technology_id);
 
-    if (!technology.published && ![Role.CTO, Role.TechLead].includes(req.session.user.role)) {
+    if (!technology.published && !hasAccessToUnpublishedTechnologies(req.session.user.role)) {
       return res.status(400).send({ errors: ['Provided technology id does not exist or is not published.'] });
     }
 

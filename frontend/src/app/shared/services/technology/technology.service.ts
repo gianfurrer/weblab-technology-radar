@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { PublishDetails, Technology } from "@shared/types/technology";
@@ -11,8 +11,9 @@ export class TechnologyService {
 
   constructor(private http: HttpClient) {}
 
-  public getTechnologies(): Observable<Technology[]> {
-    return this.http.get<Technology[]>(TechnologyService.URL_PREFIX);
+  public getTechnologies(onlyPublished = true): Observable<Technology[]> {
+    const options = { params: new HttpParams().set("onlyPublished", onlyPublished) };
+    return this.http.get<Technology[]>(TechnologyService.URL_PREFIX, options);
   }
 
   public getTechnology(id: string): Observable<Technology> {

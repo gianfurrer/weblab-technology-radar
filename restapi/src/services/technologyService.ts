@@ -59,7 +59,15 @@ export async function updateTechnology(technology: Technology, changed_by: Accou
   return await getTechnologyById(id);
 }
 
-export async function getTechnologies(where: string = '', ...args): Promise<Technology[]> {
+export async function getTechnologies(onlyPublished: boolean) {
+  let query = ``;
+  if (onlyPublished)  {
+    query = `WHERE t.published = true`;
+  }
+  return await getTechnologiesWithQuery(query);
+}
+
+async function getTechnologiesWithQuery(where: string = '', ...args): Promise<Technology[]> {
   return await db.executeSQL(
     `SELECT t.id, t.name, t.category, t.ring, t.description, t.ring_reason,
                                      created.email as created_by, t.created_at, t.published, t.published_at,
@@ -73,12 +81,12 @@ export async function getTechnologies(where: string = '', ...args): Promise<Tech
 }
 
 export async function getTechnologyById(id: string): Promise<Technology | null> {
-  const rows = await getTechnologies('WHERE t.id = $1', id);
+  const rows = await getTechnologiesWithQuery('WHERE t.id = $1', id);
   return rows[0] || null;
 }
 
 async function getTechnologyByName(name: string): Promise<Technology | null> {
-  const rows = await getTechnologies('WHERE t.name = $1', name);
+  const rows = await getTechnologiesWithQuery('WHERE t.name = $1', name);
   return rows[0] || null;
 }
 

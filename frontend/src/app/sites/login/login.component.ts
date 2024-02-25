@@ -18,7 +18,7 @@ export class LoginComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private loginService: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
@@ -37,7 +37,7 @@ export class LoginComponent {
 
     const { email, password } = this.loginForm.getRawValue();
     await lastValueFrom(
-      this.loginService.login(email, password).pipe(
+      this.authService.login(email, password).pipe(
         tap(() => {
           this.router.navigateByUrl("/technologies/radar");
         }),

@@ -5,7 +5,7 @@ import connectPg from 'connect-pg-simple';
 import { RouterV1 } from './v1/routes';
 import { pool } from './database/database';
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 3000;
 
 var corsOptions = {
@@ -34,6 +34,6 @@ app.get('/', (req, res) => {
   res.redirect('/api/v1');
 });
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}`);
 });

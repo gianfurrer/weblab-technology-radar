@@ -10,20 +10,9 @@ import {
 import { Category, Ring } from '@src/types/technology.types';
 import { hasRole, isAuthenticated } from './middleware/auth';
 import { Role } from '@src/types/authentication.types';
+import { validate } from './middleware/validation';
 
 const router = Router();
-
-const validate = (checks: ValidationChain[]) => [
-  ...checks,
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-    next();
-  },
-];
 
 const ringOptions = Object.values(Ring);
 const categoryOptions = Object.values(Category);

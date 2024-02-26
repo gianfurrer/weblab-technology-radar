@@ -1,5 +1,3 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import { ValidationChain, body, validationResult } from 'express-validator';
 import {
   createTechnology,
   getTechnologies,
@@ -7,9 +5,11 @@ import {
   publishTechnology,
   updateTechnology,
 } from '@src/controllers/technologyController';
-import { Category, Ring } from '@src/types/technology.types';
-import { hasRole, isAuthenticated } from './middleware/auth';
 import { Role } from '@src/types/authentication.types';
+import { Category, Ring } from '@src/types/technology.types';
+import { Router } from 'express';
+import { body } from 'express-validator';
+import { hasRole, isAuthenticated } from './middleware/auth';
 import { validate } from './middleware/validation';
 
 const router = Router();

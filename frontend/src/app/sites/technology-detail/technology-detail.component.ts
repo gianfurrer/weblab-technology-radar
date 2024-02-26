@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, JsonPipe, NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, DatePipe, NgFor, NgIf } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TechnologyService } from "@shared/services/technology/technology.service";
@@ -8,7 +8,7 @@ import { Observable, catchError, of, share, switchMap, tap } from "rxjs";
 @Component({
   selector: "app-technology-detail",
   standalone: true,
-  imports: [NgIf, NgFor, DatePipe, AsyncPipe, JsonPipe], // FIXME: Remove JsonPipe
+  imports: [NgIf, NgFor, DatePipe, AsyncPipe],
   templateUrl: "./technology-detail.component.html",
 })
 export class TechnologyDetailComponent {

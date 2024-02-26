@@ -45,7 +45,6 @@ export class EditTechnologyDialogComponent extends DialogBaseComponent implement
 
     const body: Technology = this.editForm.getRawValue();
     body.id = this.technology.id ?? "";
-    console.log(body);
 
     await firstValueFrom(
       this.technologyService.editTechnology(body).pipe(

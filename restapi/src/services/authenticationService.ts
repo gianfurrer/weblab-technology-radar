@@ -9,7 +9,6 @@ export class AuthenticationError extends Error {
 }
 
 export async function login(email: string, password: string): Promise<Account> {
-  console.log(email, password);
   const accounts: Account[] = await db.executeSQL(
     'SELECT id, email, role FROM account WHERE email = $1 and password = crypt( $2 , password )',
     email,

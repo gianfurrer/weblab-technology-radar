@@ -68,7 +68,6 @@ describe("LoginComponent", () => {
     setFieldElementValue(passwordInput, "shortpw");
     submitBtn.click();
     fixture.detectChanges();
-    console.log(el.querySelectorAll(".errors"), emailInput.value, passwordInput.value);
     expect(errors().find(el => el.textContent === "Password must be at least 8 characters")).toBeTruthy();
     expect(errors().find(el => el.textContent === "Email must be a valid email address")).toBeTruthy();
   });

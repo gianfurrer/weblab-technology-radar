@@ -1,5 +1,12 @@
 <section class="flex-auto">
-  <h1 class="text-xl font-bold text-white p-4 md:text-2xl">Administration</h1>
+  <div class="w-full flex justify-between">
+    <h1 class="text-xl font-bold text-white p-4 md:text-2xl">Administration</h1>
+    <button
+      (click)="addTechnology()"
+      class="m-3 px-2 py-1 text-gray-900 bg-emerald-200 hover:bg-emerald-300 rounded-lg text-sm text-center">
+      Add Technology
+    </button>
+  </div>
   <table *ngIf="technologies$ | async as technologies" class="table-auto w-full text-center text-sm font-light">
     <thead>
       <tr class="border-b bg-gray-300">
@@ -45,13 +52,13 @@
           class="md:px-6 max-md:border-l border-gray-400 py-4 flex gap-1 flex-wrap-reverse justify-center align-middle">
           <button
             (click)="editTechnology(technology)"
-            class="w-20 text-gray-900 bg-blue-300 hover:bg-blue-400 rounded-lg text-sm p-1 text-center">
+            class="md:w-20 text-gray-900 bg-blue-300 hover:bg-blue-400 rounded-lg text-sm p-1 text-center">
             Edit
           </button>
           <button
             (click)="publishOrChangeTechnology(technology)"
             [attr.data-published]="technology.published"
-            class="w-32 text-gray-900 data-[published=false]:bg-green-200 data-[published=false]:hover:bg-green-300 data-[published=true]:bg-lime-100 data-[published=true]:hover:bg-lime-200 rounded-lg text-sm p-1 text-center">
+            class="md:w-32 text-gray-900 data-[published=false]:bg-green-200 data-[published=false]:hover:bg-green-300 data-[published=true]:bg-lime-100 data-[published=true]:hover:bg-lime-200 rounded-lg text-sm p-1 text-center">
             {{ technology.published ? "Change Ring" : "Publish" }}
           </button>
         </td>
@@ -64,4 +71,7 @@
   <app-edit-technology-dialog
     [technology]="technologyToEdit"
     (closeDialog)="technologyToEdit = undefined"></app-edit-technology-dialog>
+  <app-add-technology-dialog
+    [technology]="technologyToAdd"
+    (closeDialog)="technologyAdded()"></app-add-technology-dialog>
 </section>

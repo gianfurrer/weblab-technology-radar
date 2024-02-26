@@ -29,10 +29,11 @@ const technologyValidator = [
   body('id', `Parameter 'id' not provided`),
   ...requiredTechnologyValidator,
   body('ring')
-    .optional()
+    .optional({ values: 'falsy' })
+    .default(null)
     .isIn(ringOptions)
     .withMessage(`Parameter 'ring' must be one of: ${ringOptions.join(', ')}`),
-  body('ring_reason').optional(),
+  body('ring_reason').optional({ checkFalsy: true }),
   body('published').default(false),
 ];
 

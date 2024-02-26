@@ -6,29 +6,31 @@
     [attr.data-category]="group.key"
     class="bg-gray-50">
     <h2 class="text-xl font-bold text-gray-900 p-4 md:text-2xl">{{ group.key }}</h2>
-    <table *ngIf="group.value as technologies" class="table-auto w-full text-center text-sm font-light">
-      <thead>
-        <tr class="border-b bg-gray-300">
-          <th scope="col" class="px-3 py-2">Name</th>
-          <th scope="col" class="px-3 py-2">Ring</th>
-          <th scope="col" class="px-3 py-2">Description</th>
-          <th scope="col" class="px-3 py-2">Ring Description</th>
-          <th scope="col" class="px-3 py-2 max-md:hidden">Created At</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let technology of technologies | sortByRing"
-          (click)="technologyDetails(technology)"
-          [attr.data-ring]="technology.ring"
-          class="border-b cursor-pointer hover:!bg-gray-300 data-[ring=Adopt]:bg-green-400 data-[ring=Trial]:bg-yellow-400 data-[ring=Assess]:bg-orange-400 data-[ring=Hold]:bg-red-400">
-          <td class="px-6 py-4">{{ technology.name }}</td>
-          <td class="px-6 py-4">{{ technology.ring }}</td>
-          <td class="px-6 py-4">{{ technology.description }}</td>
-          <td class="px-6 py-4">{{ technology.ring_reason }}</td>
-          <td class="px-6 py-4 max-md:hidden">{{ technology.created_at | date: "dd.MM.yy HH:mm:ss" }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="overflow-x-auto w-full">
+      <table *ngIf="group.value as technologies" class="table-auto w-full text-center text-sm font-light">
+        <thead>
+          <tr class="border-b bg-gray-300">
+            <th scope="col" class="px-3 py-2">Name</th>
+            <th scope="col" class="px-3 py-2">Ring</th>
+            <th scope="col" class="px-3 py-2">Description</th>
+            <th scope="col" class="px-3 py-2">Ring Description</th>
+            <th scope="col" class="px-3 py-2">Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let technology of technologies | sortByRing"
+            (click)="technologyDetails(technology)"
+            [attr.data-ring]="technology.ring"
+            class="border-b cursor-pointer hover:!bg-gray-300 data-[ring=Adopt]:bg-green-400 data-[ring=Trial]:bg-yellow-400 data-[ring=Assess]:bg-orange-400 data-[ring=Hold]:bg-red-400">
+            <td class="px-6 py-4">{{ technology.name }}</td>
+            <td class="px-6 py-4">{{ technology.ring }}</td>
+            <td class="px-6 py-4">{{ technology.description }}</td>
+            <td class="px-6 py-4">{{ technology.ring_reason }}</td>
+            <td class="px-6 py-4">{{ technology.created_at | date: "dd.MM.yy HH:mm:ss" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </article>

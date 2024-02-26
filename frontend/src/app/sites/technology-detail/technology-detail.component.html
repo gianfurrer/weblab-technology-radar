@@ -31,27 +31,29 @@
     </div>
     <div class="p-3 w-full" *ngIf="technology.ring_history?.length">
       <h2 class="text-2xl pb-3">Ring History</h2>
-      <table class="table-auto w-full text-center text-sm font-light">
-        <thead>
-          <tr class="border-b bg-gray-300">
-            <th scope="col" class="px-3 py-2">Date</th>
-            <th scope="col" class="px-3 py-2">Author</th>
-            <th scope="col" class="px-3 py-2">Ring</th>
-            <th scope="col" class="px-3 py-2">Reason</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let entry of technology.ring_history"
-            [attr.data-ring]="entry.ring"
-            class="border-b cursor-pointer data-[ring=Adopt]:bg-green-400 data-[ring=Trial]:bg-yellow-400 data-[ring=Assess]:bg-orange-400 data-[ring=Hold]:bg-red-400">
-            <td class="px-6 py-4 max-md:hidden">{{ entry.changed_at | date: "dd.MM.yy HH:mm:ss" }}</td>
-            <td class="px-6 py-4">{{ entry.changed_by }}</td>
-            <td class="px-6 py-4">{{ entry.ring }}</td>
-            <td class="px-6 py-4">{{ entry.ring_reason }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="overflow-x-auto w-full">
+        <table class="table-auto w-full text-center text-sm font-light">
+          <thead>
+            <tr class="border-b bg-gray-300">
+              <th scope="col" class="px-3 py-2">Date</th>
+              <th scope="col" class="px-3 py-2 max-md:hidden">Author</th>
+              <th scope="col" class="px-3 py-2">Ring</th>
+              <th scope="col" class="px-3 py-2">Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let entry of technology.ring_history"
+              [attr.data-ring]="entry.ring"
+              class="border-b cursor-pointer data-[ring=Adopt]:bg-green-400 data-[ring=Trial]:bg-yellow-400 data-[ring=Assess]:bg-orange-400 data-[ring=Hold]:bg-red-400">
+              <td class="px-6 py-4">{{ entry.changed_at | date: "dd.MM.yy HH:mm:ss" }}</td>
+              <td class="px-6 py-4 max-md:hidden">{{ entry.changed_by }}</td>
+              <td class="px-6 py-4">{{ entry.ring }}</td>
+              <td class="px-6 py-4">{{ entry.ring_reason }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 </article>

@@ -1,30 +1,53 @@
 <nav class="bg-gray-400">
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-2 sm:px-2 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-2 text-lg" *ngIf="currentUser$ | async as user">
-            <a
-              routerLink="/technologies/radar"
-              routerLinkActive="bg-gray-700 text-white"
-              class="text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-              aria-current="page"
-              >Technology Radar</a
-            >
-            <a
-              *ngIf="isAdmin(user)"
-              routerLink="/technologies/admin"
-              routerLinkActive="bg-gray-700 text-white"
-              class="text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-              >Technology Administration</a
-            >
+      <div *ngIf="currentUser$ | async as user">
+        <div class="flex max-md:hidden flex-wrap space-x-2 text-lg">
+          <a
+            routerLink="/technologies/radar"
+            routerLinkActive="bg-gray-700 text-white"
+            class="text-black bg-gray-200 hover:bg-gray-700 hover:text-white rounded-md p-2 text-sm font-medium"
+            aria-current="page"
+            >Technology Radar</a
+          >
+          <a
+            *ngIf="isAdmin(user)"
+            routerLink="/technologies/admin"
+            routerLinkActive="bg-gray-700 text-white"
+            class="text-black bg-gray-200 hover:bg-gray-700 hover:text-white rounded-md p-2 text-sm font-medium"
+            >Technology Administration</a
+          >
+        </div>
+        <div class="md:hidden">
+          <button class="space-y-1.5 p-2" (click)="dropdownNav.hidden = !dropdownNav.hidden">
+            <span class="block w-8 h-1 bg-gray-600"></span>
+            <span class="block w-8 h-1 bg-gray-600"></span>
+            <span class="block w-8 h-1 bg-gray-600"></span>
+          </button>
+          <div #dropdownNav hidden class="absolute bg-white rounded-md overflow-hidden">
+            <div class="flex flex-wrap" (click)="dropdownNav.hidden = true">
+              <a
+                routerLink="/technologies/radar"
+                routerLinkActive="bg-gray-700 text-white"
+                class="w-full text-black border-b hover:bg-gray-700 hover:text-white p-2 text-sm font-medium"
+                aria-current="page"
+                >Technology Radar</a
+              >
+              <a
+                *ngIf="isAdmin(user)"
+                routerLink="/technologies/admin"
+                routerLinkActive="bg-gray-700 text-white"
+                class="w-full text-black hover:bg-gray-700 hover:text-white p-2 text-sm font-medium"
+                >Technology Administration</a
+              >
+            </div>
           </div>
         </div>
       </div>
       <div
         *ngIf="currentUser$ | async as user; else notLoggedInBlock"
         class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <span id="display-email" class="px-2">{{ user.email }}</span>
+        <span id="display-email" class="px-2 max-md:hidden">{{ user.email }}</span>
         <button
           id="dropdownProfileBtn"
           data-dropdown-toggle="dropdownProfile"
@@ -48,10 +71,13 @@
           #dropdownProfile
           hidden
           id="dropdownProfile"
-          class="absolute right-0 top-14 z-9 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+          class="absolute right-0 top-14 z-9 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-52">
+          <div id="display-email-mobile" class="p-2 md:hidden text-sm bg-gray-50 rounded-lg w-full">
+            {{ user.email }}
+          </div>
           <button
             (click)="logout()"
-            class="min-w-full block px-4 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-200">
+            class="min-w-full block px-4 py-2 text-sm text-gray-700 rounded-lg bg-red-300 hover:bg-red-400">
             Sign out
           </button>
         </div>

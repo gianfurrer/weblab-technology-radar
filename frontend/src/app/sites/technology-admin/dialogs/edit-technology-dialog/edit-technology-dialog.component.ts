@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from "@angular/common";
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { DialogBaseComponent } from "@shared/components/dialog-base.component";
+import { DialogBaseComponent } from "app/sites/technology-admin/dialogs/dialog-base.component";
 import { TechnologyService } from "@shared/services/technology/technology.service";
 import { Technology } from "@shared/types/technology";
 import { catchError, firstValueFrom, of, tap } from "rxjs";

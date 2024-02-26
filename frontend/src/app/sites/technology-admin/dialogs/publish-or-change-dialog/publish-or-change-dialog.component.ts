@@ -30,7 +30,10 @@ export class PublishOrChangeDialogComponent extends DialogBaseComponent implemen
     if (changes["technology"] && this.technology) {
       this.dialog.showModal();
       this.publishForm = this.formBuilder.group({
-        ring: [this.technology.ring?.toString() ?? "", [Validators.required]],
+        ring: [
+          this.technology.ring?.toString() ?? "",
+          [Validators.required, Validators.pattern(/(Adopt|Trial|Assess|Hold)/)],
+        ],
         ring_reason: [this.technology.ring_reason, [Validators.required]],
         publish: [true, [Validators.required]],
       });
@@ -56,7 +59,11 @@ export class PublishOrChangeDialogComponent extends DialogBaseComponent implemen
         }),
         catchError(err => {
           console.error(err);
-          this.errorMessages = err.error ? (err.error.errors ? err.error.errors : [err.error]) : [err.message];
+          this.errorMessages = err.error
+            ? err.error.errors
+              ? err.error.errors.map((e: string | { msg: string }) => (e instanceof Object ? e.msg : e))
+              : [err.error]
+            : [err.message];
           return of(this.errorMessages);
         })
       )

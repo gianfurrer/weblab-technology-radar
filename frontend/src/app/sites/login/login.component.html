@@ -39,8 +39,8 @@
         <div *ngIf="errors['minlength']">Password must be at least 8 characters</div>
       </div>
     </div>
-    <div *ngIf="errorMessage" class="text-red-700">
-      {{ errorMessage }}
+    <div *ngIf="errorMessages.length" class="text-red-800 font-bold px-3 pb-3">
+      <p *ngFor="let error of errorMessages">{{ error }}</p>
     </div>
     <button
       type="submit"

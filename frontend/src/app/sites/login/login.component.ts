@@ -14,7 +14,7 @@ import { Router } from "@angular/router";
 export class LoginComponent {
   public loginForm!: FormGroup;
   public submitted = false;
-  public errorMessage?: string;
+  public errorMessages: string[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,7 +29,7 @@ export class LoginComponent {
 
   public async onSubmit() {
     this.submitted = true;
-    this.errorMessage = "";
+    this.errorMessages = [];
 
     if (this.loginForm.invalid) {
       return;
@@ -42,8 +42,13 @@ export class LoginComponent {
           this.router.navigateByUrl("/technologies/radar");
         }),
         catchError(err => {
-          this.errorMessage = err.error ?? err.message;
-          return of(this.errorMessage);
+          console.error(err);
+          this.errorMessages = err.error
+            ? err.error.errors
+              ? err.error.errors.map((e: string | { msg: string }) => (e instanceof Object ? e.msg : e))
+              : [err.error]
+            : [err.message];
+          return of(this.errorMessages);
         })
       )
     );

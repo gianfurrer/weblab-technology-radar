@@ -56,7 +56,11 @@ export class EditTechnologyDialogComponent extends DialogBaseComponent implement
         }),
         catchError(err => {
           console.error(err);
-          this.errorMessages = err.error ? (err.error.errors ? err.error.errors : [err.error]) : [err.message];
+          this.errorMessages = err.error
+            ? err.error.errors
+              ? err.error.errors.map((e: string | { msg: string }) => (e instanceof Object ? e.msg : e))
+              : [err.error]
+            : [err.message];
           return of(this.errorMessages);
         })
       )

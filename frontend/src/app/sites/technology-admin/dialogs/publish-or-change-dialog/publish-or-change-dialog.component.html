@@ -20,6 +20,7 @@
       </select>
       <div *ngIf="submitted && ring['errors'] as errors" class="text-red-700 font-bold">
         <div *ngIf="errors['required']">A Ring is required</div>
+        <div *ngIf="errors['pattern']">The selected Ring does not exist</div>
       </div>
     </div>
     <div class="p-2">

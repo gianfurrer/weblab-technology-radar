@@ -14,7 +14,7 @@ export async function addTechnology(technology: Technology, created_by: Account)
      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       technology.name,
       technology.category,
-      technology.ring ?? null,
+      technology.ring ? technology.ring : null,
       technology.description,
       technology.ring_reason,
       created_by.id

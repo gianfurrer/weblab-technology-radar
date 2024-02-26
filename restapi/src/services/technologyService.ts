@@ -3,29 +3,30 @@ import { Account } from '@src/types/authentication.types';
 import { PublishDetails, Ring, RingHistroy, Technology } from '@src/types/technology.types';
 
 export async function addTechnology(technology: Technology, created_by: Account) {
-  let { name, category, ring, description, ring_reason } = technology;
-
-  const existing_technology = await getTechnologyByName(name);
+  const existing_technology = await getTechnologyByName(technology.name);
   if (existing_technology !== null) {
-    throw Error(`Failed to add technology: Technology with name ${name} already exists`);
+    throw Error(`Failed to add technology: Technology with name ${technology.name} already exists`);
   }
 
-  technology = await db.executeSQL(
-    `INSERT INTO technology (name, category, ring, description, ring_reason, created_by)
+  technology = (
+    await db.executeSQL(
+      `INSERT INTO technology (name, category, ring, description, ring_reason, created_by)
      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-    name,
-    category,
-    ring,
-    description,
-    ring_reason,
-    created_by.id
+      technology.name,
+      technology.category,
+      technology.ring ?? null,
+      technology.description,
+      technology.ring_reason,
+      created_by.id
+    )
   )[0];
 
   if (technology.ring) {
-    await updateRingHistroy(technology.id, ring, ring_reason ?? '', created_by);
+    await updateRingHistroy(technology.id, technology.ring, technology.ring_reason ?? '', created_by);
   }
 
-  return technology;
+  // Re-fetch to get correct foreign values
+  return getTechnologyById(technology.id);
 }
 
 export async function updateTechnology(technology: Technology, changed_by: Account) {
@@ -61,7 +62,7 @@ export async function updateTechnology(technology: Technology, changed_by: Accou
 
 export async function getTechnologies(onlyPublished: boolean) {
   let query = ``;
-  if (onlyPublished)  {
+  if (onlyPublished) {
     query = `WHERE t.published = true`;
   }
   return await getTechnologiesWithQuery(query);
@@ -109,12 +110,12 @@ async function updateRingHistroy(
 
 export async function getRingHistory(technology_id: string): Promise<RingHistroy[]> {
   return await db.executeSQL(
-      `SELECT h.technology_id, h.ring, h.ring_reason, a.email as changed_by, h.changed_at
+    `SELECT h.technology_id, h.ring, h.ring_reason, a.email as changed_by, h.changed_at
             FROM ring_history as h
             LEFT JOIN account as a ON a.id = h.changed_by
             WHERE h.technology_id = $1`,
-      technology_id
-    );
+    technology_id
+  );
 }
 
 export async function publishTechnology(publishDetails: PublishDetails, changed_by: Account): Promise<Technology> {

@@ -7,7 +7,7 @@
     "start": "ts-node --transpile-only src/index.ts",
     "build": "tsc -p . && tsc-alias",
     "dev": "nodemon src/index.ts",
-    "test": "PORT=0 jest --detectOpenHandles --testTimeout=5000"
+    "test": "PORT=0 jest --detectOpenHandles"
   },
   "keywords": [
     "JavaScript",

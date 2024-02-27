@@ -13,8 +13,8 @@
         <th scope="col" class="md:px-3 py-2">Name</th>
         <th scope="col" class="md:px-3 py-2">Category</th>
         <th scope="col" class="md:px-3 py-2">Ring</th>
-        <th scope="col" class="md:px-3 py-2 max-md:hidden">Created</th>
-        <th scope="col" class="md:px-3 py-2 max-md:hidden">Last Edit</th>
+        <th scope="col" class="md:px-3 py-2 max-lg:hidden">Created</th>
+        <th scope="col" class="md:px-3 py-2 max-lg:hidden">Last Edit</th>
         <th scope="col" class="md:px-3 py-2">Published At</th>
         <th scope="col" class="md:px-3 py-2">Actions</th>
       </tr>
@@ -27,14 +27,14 @@
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.name }}</td>
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.category }}</td>
         <td class="md:px-6 max-md:border-l border-gray-400 py-4">{{ technology.ring }}</td>
-        <td class="md:px-6 max-md:border-l border-gray-400 py-4 max-md:hidden">
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4 max-lg:hidden">
           <span *ngIf="technology.created_at || technology.created_by">
             {{ technology.created_at | date: "dd.MM.yy HH:mm:ss" }}
             <br />
             {{ technology.created_by }}
           </span>
         </td>
-        <td class="md:px-6 max-md:border-l border-gray-400 py-4 max-md:hidden">
+        <td class="md:px-6 max-md:border-l border-gray-400 py-4 max-lg:hidden">
           <span *ngIf="technology.changed_at || technology.changed_by; else unchanged">
             {{ technology.changed_at | date: "dd.MM.yy HH:mm:ss" }}
             <br />

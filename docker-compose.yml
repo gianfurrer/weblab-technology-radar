@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3001:80
+    depends_on:
+      - rest-api
 
   rest-api:
     build:

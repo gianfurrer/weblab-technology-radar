@@ -23,7 +23,7 @@ DROP TYPE IF EXISTS ring;
 CREATE TYPE ring AS ENUM ('Assess', 'Trial', 'Adopt', 'Hold');
 
 DROP TYPE IF EXISTS category;
-CREATE TYPE category AS ENUM ('Techniques', 'Platforms', 'Tools', 'Languages');
+CREATE TYPE category AS ENUM ('Techniques', 'Platforms', 'Tools', 'Languages & Frameworks');
 
 
 CREATE TABLE technology (

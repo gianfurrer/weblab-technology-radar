@@ -31,7 +31,10 @@ export class AddTechnologyComponent extends DialogBaseComponent implements OnCha
       this.dialog.showModal();
       this.addForm = this.formBuilder.group({
         name: ["", [Validators.required]],
-        category: ["", [Validators.required, Validators.pattern(/(Platforms|Techniques|Tools)/)]],
+        category: [
+          "",
+          [Validators.required, Validators.pattern(/(Platforms|Techniques|Tools|Languages & Frameworks)/)],
+        ],
         description: ["", [Validators.required]],
         ring: ["", [Validators.pattern(/(Adopt|Trial|Assess|Hold)/)]],
         ring_reason: ["", []],

@@ -2,6 +2,7 @@ export enum Category {
   Tools = "Tools",
   Techniques = "Techniques",
   Platforms = "Platforms",
+  LanguagesFrameworks = "Languages & Frameworks",
 }
 
 export enum Ring {

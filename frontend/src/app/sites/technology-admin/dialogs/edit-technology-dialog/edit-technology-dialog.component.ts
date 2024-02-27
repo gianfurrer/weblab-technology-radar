@@ -31,7 +31,10 @@ export class EditTechnologyDialogComponent extends DialogBaseComponent implement
       this.dialog.showModal();
       this.editForm = this.formBuilder.group({
         name: [this.technology.name, [Validators.required]],
-        category: [this.technology.category, [Validators.required, Validators.pattern(/(Platforms|Techniques|Tools)/)]],
+        category: [
+          this.technology.category,
+          [Validators.required, Validators.pattern(/(Platforms|Techniques|Tools|Languages & Frameworks)/)],
+        ],
         description: [this.technology.description, [Validators.required]],
       });
     }

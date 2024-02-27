@@ -1,19 +1,16 @@
-import express from 'express';
-import cors from 'cors';
-import session from 'express-session';
 import connectPg from 'connect-pg-simple';
-import { RouterV1 } from './v1/routes';
+import express from 'express';
+import session from 'express-session';
 import { pool } from './database/database';
+import { logger } from './logger';
+import { RouterV1 } from './v1/routes';
 
+
+/** SETUP APP */
 export const app = express();
 const PORT = process.env.PORT || 3000;
 
-var corsOptions = {
-  origin: 'http://localhost:4200',
-  optionsSuccessStatus: 204,
-  credentials: true,
-};
-app.use(cors(corsOptions)); // FIXME: ONLY FOR DEVELOPMENT
+/** Setup Session Management with PostgreSQL */
 const pgSession = connectPg(session);
 app.use(
   session({
@@ -26,14 +23,12 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+/** Setup Response Parser and Routes */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', RouterV1);
 
-app.get('/', (req, res) => {
-  res.redirect('/api/v1');
-});
-
 export const server = app.listen(PORT, () => {
-  console.log(`API is listening on port ${PORT}`);
+  logger.info(`API is listening on port ${PORT}`);
 });

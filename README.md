@@ -131,3 +131,28 @@ npm run start
 ```
 
 3. Open the Website: http://localhost:4200
+
+
+## Testing
+
+The Frontend and Backend both contain Unit Tests.
+
+### Backend
+
+To run the Backend Unit Tests, run:
+
+```bash
+cd backend
+npm install
+npm run test
+```
+
+### Frontend
+
+To run the Frontend Unit Tests, run:
+
+```bash
+cd frontend
+npm install
+npm run test
+```

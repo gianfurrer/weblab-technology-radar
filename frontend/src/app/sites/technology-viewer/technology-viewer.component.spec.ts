@@ -110,9 +110,7 @@ describe("TechnologyViewerComponent", () => {
     const navigationSpy = spyOn(router, "navigate");
 
     // We know that this row must be "Category Techniques #1" thanks to ordering
-    const firstRow = document.querySelector(
-      "section[data-category=Techniques] > table > tbody > tr"
-    ) as HTMLTableRowElement;
+    const firstRow = el.querySelector("section[data-category=Techniques] table > tbody > tr") as HTMLTableRowElement;
 
     firstRow.click();
 
